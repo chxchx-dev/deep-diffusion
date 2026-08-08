@@ -11,6 +11,28 @@ Antes de actualizar el motor, cambiar el modelo o incorporar un LoRA:
 El verificador comprueba rutas, permisos de scripts, SHA-256 del modelo y los
 campos mínimos de los JSON generados. No cambia archivos ni descarga nada.
 
+## Respaldo reproducible
+
+Crear un respaldo de la parte operativa del proyecto:
+
+```bash
+./tools/backup-project.sh
+```
+
+El archivo se guarda en `backups/` y contiene configuración, documentación,
+workflows, scripts y registros. Por defecto excluye modelos, LoRAs, imágenes,
+builds y dependencias vendorizadas.
+
+Para restaurar un respaldo, primero verifica la ruta y luego confirma de forma
+explícita:
+
+```bash
+./tools/restore-project.sh backups/deep-n-YYYYMMDD-HHMMSS.tar.gz --confirm
+```
+
+La restauración sobrescribe los archivos operativos incluidos en el respaldo;
+no modifica modelos, LoRAs, imágenes ni builds.
+
 ## Respaldo recomendado
 
 Respaldar estas carpetas y archivos:
@@ -33,5 +55,5 @@ motor que los produjo.
 4. Actualizar y recompilar en un directorio controlado.
 5. Repetir el baseline antes de aceptar la actualización.
 
-Si falla, conservar el binario anterior y revertir la configuración del build;
-no borrar modelos ni outputs durante una actualización.
+Si falla, conservar el binario anterior y restaurar la configuración desde un
+respaldo; no borrar modelos ni outputs durante una actualización.

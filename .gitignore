@@ -12,6 +12,7 @@ outputs/*
 logs/*
 masks/*
 experiments/registry.csv
+backups/*
 
 # Builds y dependencias generadas
 **/build/

@@ -20,6 +20,8 @@ check test -x "${ROOT_DIR}/tools/generate.sh"
 check test -x "${ROOT_DIR}/tools/edit-image.sh"
 check test -x "${ROOT_DIR}/tools/benchmark.sh"
 check test -x "${ROOT_DIR}/tools/run-web.sh"
+check test -x "${ROOT_DIR}/tools/backup-project.sh"
+check test -x "${ROOT_DIR}/tools/restore-project.sh"
 check test -f "${ROOT_DIR}/configs/default.env"
 check test -f "${ROOT_DIR}/experiments/registry.csv"
 
@@ -59,7 +61,9 @@ else
   ERRORS=$((ERRORS + 1))
 fi
 
-bash -n "${ROOT_DIR}/tools/generate.sh" "${ROOT_DIR}/tools/edit-image.sh"   "${ROOT_DIR}/tools/benchmark.sh" "${ROOT_DIR}/tools/run-web.sh"
+bash -n "${ROOT_DIR}/tools/generate.sh" "${ROOT_DIR}/tools/edit-image.sh" \
+  "${ROOT_DIR}/tools/benchmark.sh" "${ROOT_DIR}/tools/run-web.sh" \
+  "${ROOT_DIR}/tools/backup-project.sh" "${ROOT_DIR}/tools/restore-project.sh"
 if [[ "$?" -eq 0 ]]; then
   echo "OK: sintaxis de scripts"
 else
