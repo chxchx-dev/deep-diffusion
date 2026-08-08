@@ -1,0 +1,38 @@
+# Modelos y adaptadores locales
+models/*
+loras/*
+*.safetensors
+*.ckpt
+*.gguf
+*.pth
+*.bin
+
+# Resultados y datos de uso local
+outputs/*
+logs/*
+masks/*
+experiments/registry.csv
+
+# Builds y dependencias generadas
+**/build/
+**/node_modules/
+**/dist/
+*.o
+*.a
+*.so
+*.d
+*.ninja
+
+# Dependencia externa local; se prepara siguiendo vendor/README.md
+/vendor/stable-diffusion.cpp/
+
+# Archivos temporales del sistema y editores
+.cache/
+.local/
+.DS_Store
+*.swp
+*.swo
+
+# Material interno de planificación
+docs/PLAN.md
+docs/DECISIONS.md
