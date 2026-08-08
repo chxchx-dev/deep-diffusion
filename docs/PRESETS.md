@@ -34,3 +34,17 @@ CONFIG_FILE_OVERRIDE=configs/presets/anime-watercolor.env \
 
 Los presets portables no deben contener prompts personales, rutas absolutas,
 modelos, LoRAs ni imágenes.
+
+## Ejemplos incluidos
+
+El archivo `configs/presets/examples.json` contiene presets importables para:
+
+- Personaje anime con acuarela.
+- Retrato anime.
+- Paisaje fantástico.
+- Mascota para logo.
+- Icono de producto.
+
+En la interfaz, usa `Import JSON` y selecciona ese archivo. Para logos se
+recomienda generar primero el símbolo sin texto y añadir la tipografía después;
+SD 1.5 no garantiza lettering limpio.
