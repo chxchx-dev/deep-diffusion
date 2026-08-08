@@ -2,9 +2,9 @@
 
 La interfaz se sirve únicamente en `127.0.0.1:1234`; no se expone a la red local.
 
-El binario actual fue recompilado con el frontend HTML embebido (`HAVE_INDEX_HTML`).
-La compilación reutiliza el header frontend ya generado y no necesita instalar
-dependencias si ese archivo ya existe.
+El frontend propio vive en `web/` y se sirve como un archivo local compilado.
+El motor se mantiene separado en `vendor/stable-diffusion.cpp` y no necesita
+incluir la interfaz dentro de su binario.
 
 ## Preparación
 
@@ -12,7 +12,10 @@ Desde la raíz del proyecto:
 
 ```bash
 cd /home/chxchxn-dev/Desktop/projects/personal-projects/deep-n
-ninja -C vendor/stable-diffusion.cpp/build -j1 sd-server
+cd web
+pnpm install
+pnpm type-check
+pnpm build
 ```
 
 ## Inicio

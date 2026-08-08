@@ -74,6 +74,7 @@ presets en el navegador.
 - [Instalación y configuración](docs/SETUP.md)
 - [Arquitectura](docs/ARCHITECTURE.md)
 - [Uso de la interfaz web](docs/WEB-UI.md)
+- [Frontend web](web/README.md)
 - [Presets](docs/PRESETS.md)
 - [Rendimiento](docs/PERFORMANCE.md)
 - [Modelos compatibles](docs/MODELS.md)
