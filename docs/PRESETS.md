@@ -24,5 +24,13 @@ la sesión actual y no se incluyen en los presets.
 4. Seleccionar el preset para cargarlo en otra generación.
 
 Los presets son locales al navegador y al origen de la interfaz. Para
-respaldarlos, conservar el perfil del navegador o exportarlos manualmente en
-una futura versión de la interfaz.
+respaldarlos, se pueden guardar también como archivos `.env` versionables en
+`configs/presets/`. El preset público de ejemplo se ejecuta así:
+
+```bash
+CONFIG_FILE_OVERRIDE=configs/presets/anime-watercolor.env \
+  ./tools/generate.sh "original anime character, adult woman, silver hair, blue eyes"
+```
+
+Los presets portables no deben contener prompts personales, rutas absolutas,
+modelos, LoRAs ni imágenes.

@@ -44,6 +44,9 @@ Respaldar estas carpetas y archivos:
 - `loras/` y `models/` cuando sea viable por tamaño
 - `outputs/*.json` y los PNG seleccionados
 
+Los presets públicos y reproducibles deben mantenerse en `configs/presets/`.
+Los presets personales pueden conservarse fuera del repositorio público.
+
 Los logs de compilación y benchmark deben conservarse junto con la versión del
 motor que los produjo.
 

@@ -2,8 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CONFIG_FILE="${ROOT_DIR}/configs/default.env"
+CONFIG_FILE="${CONFIG_FILE_OVERRIDE:-${ROOT_DIR}/configs/default.env}"
 ENGINE="${ROOT_DIR}/vendor/stable-diffusion.cpp/build/bin/sd-cli"
+
+if [[ "${CONFIG_FILE}" != /* ]]; then
+  CONFIG_FILE="${ROOT_DIR}/${CONFIG_FILE}"
+fi
 
 if [[ ! -f "${CONFIG_FILE}" ]]; then
   echo "No existe la configuración: ${CONFIG_FILE}" >&2
