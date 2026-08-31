@@ -1,190 +1,250 @@
 # deep-diffusion
 
-> Herramienta local y privada para generar y editar imágenes con Stable Diffusion.cpp.
+> Herramienta local y privada para generar y editar imágenes con `stable-diffusion.cpp`.
 
-`deep-diffusion` combina un motor ligero compilado localmente, aceleración Vulkan y una
-interfaz web de loopback con flujos reproducibles desde CLI. Está pensado para
-equipos con memoria y GPU integrada limitadas.
+`deep-diffusion` combina un motor local, una interfaz web React + Vite y scripts
+CLI reproducibles. Todo el flujo está diseñado para ejecutarse en loopback, sin
+enviar prompts, imágenes, modelos ni resultados a servicios externos.
 
-Repositorio: `git@github.com:chxchx-dev/deep-diffusion.git`
+Repositorio: `https://github.com/chxchx-dev/deep-diffusion`
 
-## Propósito
+## Estado actual
 
-Construir una estación local, reproducible y auditable para experimentar con
-generación y edición de imágenes sin enviar prompts, imágenes, modelos ni
-resultados a servicios externos. El objetivo es conservar un núcleo pequeño:
-un motor local, un CLI confiable, una interfaz web de loopback y evidencia
-suficiente para repetir cada resultado.
+- Frontend migrado de Vue a React + TypeScript + Vite.
+- Bundle web autocontenido mediante `vite-plugin-singlefile`.
+- CLI para `txt2img`, `img2img` e inpainting.
+- API web nativa de `stable-diffusion.cpp` con polling y cancelación de jobs.
+- Presets, recetas, historial local y exportación de configuraciones.
+- Supervisor local para descubrir modelos y cambiar de modelo secuencialmente.
+- PNG, metadatos JSON y registro CSV para ejecuciones reproducibles.
+- Baseline: SD 1.5, 512×512, batch 1, 20 pasos, CFG 7 y seed 42.
 
-## Autor
-
-Proyecto iniciado y mantenido por **chxchxn-dev** como una herramienta personal
-de generación local, reproducible y orientada a hardware accesible.
-
-## Características
-
-- `txt2img`, `img2img` e inpainting desde CLI.
-- Interfaz web local en `127.0.0.1`.
-- Soporte para LoRAs compatibles con SD 1.5.
-- Detección de múltiples modelos locales y selección por configuración.
-- Presets configurables para prompts y parámetros de generación.
-- PNG y metadatos JSON por ejecución.
-- Benchmarks y configuración orientados a AMD Vega 7.
-
-## Qué se lleva y qué se quiere lograr
-
-### Ya disponible
-
-- Motor `stable-diffusion.cpp` aislado en `vendor/`, con CLI y servidor local.
-- Flujos `txt2img`, `img2img` e inpainting con PNG, JSON y registro CSV.
-- Frontend React + Vite, presets, recetas, historial local y cambio secuencial
-  de modelos.
-- Baseline definido: SD 1.5, 512×512, batch 1, 20 pasos, CFG 7 y seed 42.
-- Guía de desarrollo, documentación y validación reproducible en `docs/` y
-  `workflows/`.
-
-### Objetivo inmediato
-
-Cerrar la validación Vulkan en el host gráfico de la Vega 7, comprobar los
-controles web contra el CLI y mantener una configuración estable antes de
-incorporar modelos, resoluciones o capacidades nuevas.
-
-### Fuera de alcance por ahora
-
-No se busca convertirlo en una plataforma cloud, exponerlo a la red, entrenar
-modelos, añadir vídeo ni acumular funciones sin benchmark, licencia, memoria y
-rollback documentados.
+La migración y sus criterios de cierre están documentados en
+[`docs/REACT-VITE-MIGRATION.md`](docs/REACT-VITE-MIGRATION.md).
 
 ## Arquitectura
 
 ```text
-CLI / interfaz web
+CLI / React + Vite
         │
         ▼
- stable-diffusion.cpp
-     ┌──┴───┐
-     │      │
-  Vulkan  CPU/CLIP
-     │      │
-     └──┬───┘
+Supervisor local en loopback
+        │
         ▼
- PNG + JSON reproducible
+stable-diffusion.cpp (sd-server / sd-cli)
+        │
+        ├── Vulkan para difusión y VAE
+        └── CPU para CLIP y fallback
+        │
+        ▼
+PNG + JSON + registro CSV
 ```
 
-El baseline utiliza SD 1.5 a 512×512, batch 1, 20 pasos y CFG 7. La difusión y
-el VAE se ejecutan en Vulkan; CLIP permanece en CPU para ajustarse al hardware
-objetivo.
+El CLI continúa siendo la referencia reproducible. La interfaz web es una capa
+de operación sobre el mismo motor y contrato local; no existe un backend cloud.
 
-## Requisitos
+## Requisitos y plataforma
 
-- Linux con Vulkan funcional.
-- CPU x86-64 y, para el perfil recomendado, GPU AMD integrada.
-- CMake, Ninja, compilador C++17 y Python 3.
-- Node.js y pnpm solo para recompilar la interfaz embebida.
+Para el flujo completo se usa Linux con:
 
-El motor `stable-diffusion.cpp` se prepara localmente en
-`vendor/stable-diffusion.cpp`; sus fuentes y binarios no forman parte del
-repositorio público por tamaño y licencia independiente.
+- CPU x86-64.
+- AMD Vega 7 para el perfil documentado.
+- Vulkan funcional, CMake, Ninja y compilador C++17.
+- Python 3.
+- Node.js `>= 20` y pnpm `>= 10` para el frontend.
 
-## Uso rápido
+En macOS se puede instalar dependencias y validar el frontend React/Vite, pero
+el backend completo y los benchmarks Vulkan de este proyecto están documentados
+para el host Linux con Vega 7. No se deben extrapolar sus métricas a la Mac.
 
-Clona el repositorio nuevo:
+El motor se prepara localmente en `vendor/stable-diffusion.cpp`; sus fuentes,
+binarios, modelos y LoRAs pesados no forman parte del repositorio. Sigue
+[`vendor/README.md`](vendor/README.md) para compilar `sd-cli` y `sd-server`.
+
+## Instalación y primer build
+
+Clona el repositorio y entra en su directorio:
 
 ```bash
-git clone git@github.com:chxchx-dev/deep-diffusion.git
+git clone https://github.com/chxchx-dev/deep-diffusion.git
 cd deep-diffusion
 ```
 
-Después de compilar el motor y colocar un modelo compatible en `models/`:
+Instala las dependencias web:
+
+```bash
+pnpm run install
+```
+
+Prepara el motor siguiendo [`vendor/README.md`](vendor/README.md), coloca un
+modelo compatible directamente en `models/` y revisa
+[`docs/MODELS.md`](docs/MODELS.md).
+
+Para compilar solo el frontend React/Vite:
+
+```bash
+pnpm --dir web type-check
+pnpm --dir web build
+pnpm --dir web build:header
+```
+
+Esto genera `web/dist/index.html` y el header embebible
+`web/dist/gen_index_html.h`. El directorio `web/dist/` es generado y no se
+versiona.
+
+## Uso desde CLI
+
+Generación de texto a imagen:
 
 ```bash
 ./tools/generate.sh "a cozy cabin in a misty pine forest, cinematic lighting"
 ```
 
-Para ver todos los modelos instalados:
+Edición de imagen y rellenado por máscara:
+
+```bash
+./tools/edit-image.sh img2img path/to/input.png "cinematic forest lighting"
+./tools/edit-image.sh inpaint path/to/input.png path/to/mask.png "a painted window"
+```
+
+Los resultados se guardan en `outputs/` sin sobrescribir ejecuciones anteriores.
+Cada ejecución registra parámetros, modelo, hash, backend y duración en JSON y
+en `experiments/registry.csv`.
+
+Para listar o seleccionar modelos:
 
 ```bash
 ./tools/list-models.sh
+MODEL_OVERRIDE=models/otro-modelo.safetensors \
+  ./tools/generate.sh "a detailed fantasy landscape"
 ```
 
-Para iniciar la interfaz web local:
+Los LoRAs compatibles con SD 1.5 se activan desde el prompt:
 
 ```bash
-RADV_PERFTEST=nogttspill ./tools/run-web.sh
+./tools/generate.sh "<lora:mi-lora:0.6> portrait of a fictional character"
 ```
 
-También puedes usar los comandos generales desde la raíz:
+Consulta [`docs/LORAS.md`](docs/LORAS.md) antes de incorporar un archivo nuevo.
+
+## Uso de la interfaz web
+
+Después de compilar el frontend y preparar el modelo, inicia el servicio local:
 
 ```bash
-pnpm run install
-pnpm run doctor
-pnpm run build
 pnpm run start
 ```
 
-`pnpm run start` ejecuta únicamente el frontend React compilado junto con el
-backend y el supervisor local. No inicia una segunda instancia de Vite.
+También puedes ejecutar directamente:
 
-No se usa Docker como requisito del proyecto: el acceso nativo a Vulkan, los
-modelos locales y el rendimiento de la Vega 7 son más directos fuera de un
-contenedor. Docker puede evaluarse más adelante para distribución CPU o CI.
+```bash
+./tools/run-web.sh
+```
 
-Abre `http://127.0.0.1:1234`. La interfaz permite seleccionar modelos locales,
-configurar prompt, negative prompt, resolución, seed, sampler, LoRA, peso,
-pasos y CFG, además de guardar
-presets en el navegador.
+Abre `http://127.0.0.1:1234`. La interfaz permite configurar prompt, negative
+prompt, resolución, seed, sampler, pasos, CFG, LoRAs y VAE tiling. También
+incluye:
 
-## Documentación
+- recetas editables para anime, retratos, paisajes, logos e iconos;
+- presets guardados en `localStorage`;
+- historial local de ejecuciones, sin PNG ni imágenes auxiliares;
+- selección secuencial de modelos desde `models/`;
+- polling, cancelación y previsualización de jobs.
 
-- [Índice documental](docs/README.md)
-- [Desarrollo y documentación](docs/DEVELOPMENT.md)
-- [Plan Vue → React + Vite](docs/REACT-VITE-MIGRATION.md)
-- [Uso de agentes](docs/ai/AGENT_USAGE.md)
-- [Estado operativo](docs/ai/PROJECT_STATE.md)
-- [Reglas de trabajo](docs/RULES.md)
-- [Backlog y riesgos](docs/BACKLOG.md) · [Riesgos](docs/RISKS.md)
-- [Decisiones](docs/DECISIONS.md)
-- [Instalación y configuración](docs/SETUP.md)
-- [Arquitectura](docs/ARCHITECTURE.md)
-- [Uso de la interfaz web](docs/WEB-UI.md)
-- [Frontend web](web/README.md)
-- [Presets](docs/PRESETS.md)
-- [Rendimiento](docs/PERFORMANCE.md)
-- [Modelos compatibles](docs/MODELS.md)
-- [Flujos de trabajo y baselines](workflows/README.md)
+Para desarrollar la interfaz con Vite:
 
-## Desarrollo y automatización
+```bash
+pnpm --dir web dev
+```
 
-Todos los agentes comparten la misma fuente de verdad. El flujo normal es:
+El backend local debe estar disponible en otra terminal mediante
+`./tools/run-web.sh`. Vite usa por defecto `http://127.0.0.1:1234` como destino
+de proxy; se puede cambiar con `VITE_API_PROXY_TARGET` en un archivo local
+`web/.env`.
 
-1. Leer `AGENTS.md` y `docs/ai/PROJECT_STATE.md`.
-2. Clasificar la tarea y leer el workflow correspondiente.
-3. Elegir un rol de `docs/ai/agents/`.
-4. Implementar el slice mínimo y actualizar solo la fuente documental afectada.
-5. Ejecutar `pnpm run doctor`, `./tools/verify-project.sh`, las pruebas
-   relevantes y `git diff --check`.
+## Configuración local
 
-| Herramienta | Entrada | Forma de trabajo |
-| --- | --- | --- |
-| Codex | `AGENTS.md` | Usa el rol y workflow aplicables; entrega evidencia de comandos y pendientes. |
-| Claude Code | `CLAUDE.md` → `AGENTS.md` | Usa el mismo estado, reglas y workflows; `CLAUDE.md` solo funciona como adaptador. |
-| OpenCode | `AGENTS.md` | Sigue el mismo contrato del repositorio y no crea una fuente paralela de reglas. |
+Los valores reproducibles están en [`configs/default.env`](configs/default.env)
+y los presets portables en `configs/presets/*.env`.
 
-La guía detallada con ejemplos de solicitudes, selección de roles y formato de
-entrega está en [docs/ai/AGENT_USAGE.md](docs/ai/AGENT_USAGE.md). Cambiar de
-agente no debe cambiar la arquitectura, el estado ni los criterios de calidad.
+No se crean ni se versionan archivos `.env.example`, `.env.local.example` ni
+variantes similares. Los overrides personales se mantienen en archivos `.env`
+ignorados, como `web/.env`, y nunca deben incluir secretos en el repositorio.
 
-## Privacidad y alcance
+## Validación
 
-El proyecto está diseñado para ejecutarse localmente: imágenes, prompts y
-modelos no se envían a servicios externos. No incluye funciones de desnudo
-automático ni sexualización de personas reales; cualquier uso de personajes
-adultos debe ser ficticio y claramente adulto.
+Checks del frontend:
+
+```bash
+pnpm --dir web type-check
+pnpm --dir web build
+pnpm --dir web build:header
+```
+
+Checks del repositorio y documentación:
+
+```bash
+pnpm run doctor
+git diff --check
+```
+
+El check integrado ejecuta frontend y verificación operativa:
+
+```bash
+pnpm run build
+```
+
+`pnpm run build` requiere además el modelo local, al menos un JSON en
+`outputs/` y `experiments/registry.csv`; para una copia recién clonada usa
+primero los checks del frontend. La verificación completa puede ejecutarse con:
+
+```bash
+./tools/verify-project.sh
+```
+
+El benchmark CPU/Vulkan y las pruebas de equivalencia entre web y CLI se
+documentan en [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md) y
+[`docs/WEB-UI.md`](docs/WEB-UI.md). La validación Vulkan debe realizarse en el
+host gráfico correspondiente.
+
+## Desarrollo y documentación
+
+La documentación está separada por responsabilidad:
+
+- [`docs/README.md`](docs/README.md): índice activo.
+- [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md): flujo de desarrollo y evidencia.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): diseño y límites.
+- [`docs/REACT-VITE-MIGRATION.md`](docs/REACT-VITE-MIGRATION.md): transición del
+  frontend.
+- [`docs/SETUP.md`](docs/SETUP.md), [`docs/WEB-UI.md`](docs/WEB-UI.md) y
+  [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md): instalación y operación.
+- [`docs/MODELS.md`](docs/MODELS.md), [`docs/LORAS.md`](docs/LORAS.md) y
+  [`docs/PRESETS.md`](docs/PRESETS.md): recursos reproducibles.
+- [`docs/DECISIONS.md`](docs/DECISIONS.md), [`docs/RISKS.md`](docs/RISKS.md) y
+  [`docs/BACKLOG.md`](docs/BACKLOG.md): decisiones, riesgos y pendientes.
+- [`workflows/README.md`](workflows/README.md): workflows de desarrollo y
+  baselines de uso.
+
+Para cambios asistidos por herramientas, `AGENTS.md` enruta al workflow y a la
+fuente documental correspondiente. La guía específica está en
+[`docs/ai/AGENT_USAGE.md`](docs/ai/AGENT_USAGE.md).
+
+## Privacidad, seguridad y alcance
+
+- El servicio escucha únicamente en `127.0.0.1`.
+- Las rutas de modelos se limitan a archivos directamente dentro de `models/`.
+- Prompts, imágenes, modelos y LoRAs permanecen en el equipo.
+- No se versionan modelos, LoRAs, outputs, logs, builds, secretos ni datos
+  personales.
+- Los prompts deben usar material propio, ficticio o autorizado.
+- El proyecto no incluye funciones para desnudar digitalmente ni sexualizar
+  personas reales.
+- No se busca convertirlo en una plataforma cloud, entrenar modelos ni añadir
+  vídeo sin una decisión y validación específicas.
 
 ## Distribución y licencias
 
 El código propio de la raíz no incluye una licencia de distribución declarada.
-La interfaz web conserva el aviso de licencia de su código de origen en
-[`web/LICENSE`](web/LICENSE). El motor incluido conserva su propia licencia y
-los modelos y LoRAs tienen licencias independientes; no forman parte de este
-repositorio.
+La interfaz web conserva el aviso de licencia de su código upstream en
+[`web/LICENSE`](web/LICENSE). El motor, los modelos y los LoRAs tienen licencias
+independientes; no forman parte del código propio de este repositorio.
