@@ -1,6 +1,6 @@
 import type { GenerationForm } from "./types";
 
-const STORAGE_KEY = "sdcpp-webui-generation-presets";
+const STORAGE_KEY = "deep-diffusion-generation-presets";
 
 export interface GenerationPreset {
   name: string;
@@ -10,7 +10,7 @@ export interface GenerationPreset {
 
 export interface PresetBundle {
   schema_version: 1;
-  project: "deep-n";
+  project: "deep-diffusion";
   exported_at: string;
   presets: GenerationPreset[];
 }
@@ -71,7 +71,7 @@ export function removePreset(name: string): void {
 export function exportPresets(): string {
   const bundle: PresetBundle = {
     schema_version: 1,
-    project: "deep-n",
+    project: "deep-diffusion",
     exported_at: new Date().toISOString(),
     presets: listPresets(),
   };

@@ -1,4 +1,4 @@
-# Arquitectura de deep-n
+# Arquitectura de deep-diffusion
 
 ```text
 Prompt + configuración

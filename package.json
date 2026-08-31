@@ -1,0 +1,12 @@
+{
+  "name": "deep-diffusion",
+  "private": true,
+  "packageManager": "pnpm@10.15.1",
+  "scripts": {
+    "install": "pnpm --dir web install",
+    "doctor": "bash docs/ai/scripts/doctor.sh",
+    "verify": "./tools/verify-project.sh",
+    "build": "pnpm --dir web type-check && pnpm --dir web build && pnpm run verify",
+    "start": "./tools/start.sh"
+  }
+}

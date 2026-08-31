@@ -8,6 +8,12 @@ Antes de actualizar el motor, cambiar el modelo o incorporar un LoRA:
 ./tools/verify-project.sh
 ```
 
+Para repetir la matriz de estabilidad Vulkan de la Vega 7:
+
+```bash
+./tools/benchmark-vulkan-matrix.sh
+```
+
 El verificador comprueba rutas, permisos de scripts, SHA-256 del modelo y los
 campos mínimos de los JSON generados. No cambia archivos ni descarga nada.
 
@@ -27,7 +33,7 @@ Para restaurar un respaldo, primero verifica la ruta y luego confirma de forma
 explícita:
 
 ```bash
-./tools/restore-project.sh backups/deep-n-YYYYMMDD-HHMMSS.tar.gz --confirm
+./tools/restore-project.sh backups/deep-diffusion-YYYYMMDD-HHMMSS.tar.gz --confirm
 ```
 
 La restauración sobrescribe los archivos operativos incluidos en el respaldo;

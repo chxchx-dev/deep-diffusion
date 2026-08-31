@@ -4,7 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "isolatedModules": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,5 +14,5 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "src/env.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/env.d.ts"]
 }

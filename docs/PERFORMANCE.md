@@ -57,7 +57,41 @@ BENCHMARK_TAG=vulkan-512x512-20 ./tools/benchmark.sh
 
 ## Estado de este entorno
 
-Aquí `ggml_vulkan` no detecta dispositivos y los sockets están restringidos;
-por eso la matriz Vulkan debe ejecutarse en el host gráfico de la Vega 7. La
-prueba CPU completa de 512×512/20 pasos es demasiado lenta para usarla como
-smoke test; se permite la prueba 64×64/1 paso para validar el script.
+En la sesión de cierre del 8 de agosto de 2026, `sd-cli --list-devices`
+reportó únicamente el dispositivo CPU y `ggml_vulkan: No devices found`. Por
+eso no se inventan métricas Vulkan: la matriz debe ejecutarse desde el host
+gráfico donde esté expuesta la Vega 7.
+
+Prueba ejecutada correctamente en este entorno:
+
+| Backend | Resolución | Pasos | Resultado | Tiempo | Memoria máxima |
+|---|---:|---:|---|---:|---:|
+| `cpu` | 64×64 | 1 | PNG generado, código 0 | 5.87 s | 3.23 GiB |
+
+Log: `logs/benchmark-cpu-smoke-final-20260808-004234.txt`.
+
+La interfaz también arrancó correctamente con CPU y confirmó:
+
+```text
+listening on: http://127.0.0.1:1234
+```
+
+Esto valida el fallback y el alcance por loopback, pero no sustituye el
+benchmark Vulkan. Para cerrar Fase 4 en el host de la Vega 7, ejecutar como
+mínimo:
+
+```bash
+./tools/benchmark-vulkan-matrix.sh
+```
+
+El script comprueba primero que exista `Vulkan0`, detiene la matriz ante un
+fallo y conserva un log independiente por cantidad de pasos. Para repetir la
+prueba con otra resolución, por ejemplo 576×576:
+
+```bash
+WIDTH_OVERRIDE=576 HEIGHT_OVERRIDE=576 ./tools/benchmark-vulkan-matrix.sh
+```
+
+Conservar los tres logs y registrar en esta tabla el tiempo, memoria máxima,
+temperatura observada y si apareció `DeviceLost`. Solo probar 576×576 y
+768×768 si las tres filas de 512×512 terminan correctamente.

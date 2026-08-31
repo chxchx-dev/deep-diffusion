@@ -19,7 +19,7 @@ Obtener una imagen reproducible para comparar cambios de modelo, prompt y rendim
 ## Ejecución recomendada
 
 ```bash
-cd /home/chxchxn-dev/Desktop/projects/personal-projects/deep-n
+cd deep-diffusion
 ./tools/generate.sh a cozy cabin in a misty pine forest, cinematic lighting, detailed
 ```
 

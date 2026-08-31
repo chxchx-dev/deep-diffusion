@@ -1,6 +1,6 @@
-# sdcpp-webui
+# deep-diffusion-webui
 
-A lightweight Vue + Vite web UI for `stable-diffusion.cpp` servers that expose the native `sdcpp` API.
+A lightweight React + Vite web UI for `stable-diffusion.cpp` servers that expose the native `sdcpp` API.
 
 It is designed for two use cases:
 
@@ -9,7 +9,7 @@ It is designed for two use cases:
 
 ## What It Does
 
-`sdcpp-webui` talks directly to the native server endpoints:
+`deep-diffusion-webui` talks directly to the native server endpoints:
 
 - `GET /sdcpp/v1/capabilities`
 - `POST /sdcpp/v1/img_gen`
@@ -19,17 +19,18 @@ It is designed for two use cases:
 
 The current UI supports:
 
-- image generation and video generation mode switching
+- image generation through the native async API
 - prompt and negative prompt editing
-- width, height, seed, batch count, video frames, and fps
-- sampler and scheduler selection
-- guidance controls, including the video high-noise stage
-- conditioning controls such as `clip_skip`, `strength`, `control_strength`, `moe_boundary`, and `vace_strength`
+- width, height, seed and batch count
+- sampler, steps, CFG and seed controls
 - LoRA selection from server capabilities
-- init image, end image, mask image, control image, control frames, and reference images
 - VAE tiling controls
 - cache controls
-- job polling, cancellation, image preview, and video or animated WebP preview
+- job polling, cancellation and image preview
+- local model discovery and model switching through the loopback supervisor
+- built-in generation recipes for anime, portraits, landscapes, logos and icons
+- browser-local presets and reproducible execution history
+- contextual `?` help with recommendations for prompts and hardware-safe settings
 
 ## Requirements
 
@@ -51,7 +52,10 @@ Start the dev server:
 pnpm dev
 ```
 
-Then open the Vite URL shown in the terminal.
+In another terminal, start the local backend with `pnpm web`. Vite proxies
+`/sdcpp/*` and `/deep-diffusion/*` to `http://127.0.0.1:1234`, so the React interface
+works during development without manually configuring CORS. Override that
+target in `web/.env` using `VITE_API_PROXY_TARGET` if needed.
 
 The UI lets you set the backend base URL in the Settings tab.  
 If left empty, requests go to the current origin.
@@ -108,8 +112,8 @@ pnpm type-check
 src/
   components/   reusable UI pieces
   lib/          API, form mapping, image helpers, settings helpers
-  App.vue       main application shell
-  main.ts       app entry
+  App.tsx       main application shell
+  main.tsx      app entry
   styles.css    global styles
 scripts/
   build_gen_index_html.js
@@ -117,7 +121,9 @@ scripts/
 
 ## Notes
 
-- This UI is intentionally thin. Most selectable options come from the server's `capabilities` response.
+- This UI is intentionally local. Most selectable options come from the server's `capabilities` response.
+- The Presets panel includes built-in generation recipes with prompts and settings for anime characters, portraits, landscapes, logos, and product icons. They are editable starting points, not an image gallery.
+- The Output panel keeps a local execution history with reproducible settings; history export excludes generated media and auxiliary image data.
 - It assumes the backend handles CORS correctly if the frontend is served from a different origin.
 - It is scoped to the native `sdcpp` API, not the OpenAI-compatible routes and not the A1111-compatible `sdapi` routes.
 

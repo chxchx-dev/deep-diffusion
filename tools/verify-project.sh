@@ -19,6 +19,10 @@ check test -f "${MODEL}"
 check test -x "${ROOT_DIR}/tools/generate.sh"
 check test -x "${ROOT_DIR}/tools/edit-image.sh"
 check test -x "${ROOT_DIR}/tools/benchmark.sh"
+check test -x "${ROOT_DIR}/tools/benchmark-vulkan-matrix.sh"
+check test -x "${ROOT_DIR}/tools/list-models.sh"
+check test -x "${ROOT_DIR}/tools/model-supervisor.py"
+check test -x "${ROOT_DIR}/tools/start.sh"
 check test -x "${ROOT_DIR}/tools/run-web.sh"
 check test -x "${ROOT_DIR}/tools/backup-project.sh"
 check test -x "${ROOT_DIR}/tools/restore-project.sh"
@@ -63,11 +67,21 @@ fi
 
 bash -n "${ROOT_DIR}/tools/generate.sh" "${ROOT_DIR}/tools/edit-image.sh" \
   "${ROOT_DIR}/tools/benchmark.sh" "${ROOT_DIR}/tools/run-web.sh" \
+  "${ROOT_DIR}/tools/benchmark-vulkan-matrix.sh" \
+  "${ROOT_DIR}/tools/list-models.sh" \
+  "${ROOT_DIR}/tools/start.sh" \
   "${ROOT_DIR}/tools/backup-project.sh" "${ROOT_DIR}/tools/restore-project.sh"
 if [[ "$?" -eq 0 ]]; then
   echo "OK: sintaxis de scripts"
 else
   echo "FAIL: sintaxis de scripts" >&2
+  ERRORS=$((ERRORS + 1))
+fi
+
+if python3 -m py_compile "${ROOT_DIR}/tools/model-supervisor.py"; then
+  echo "OK: sintaxis Python"
+else
+  echo "FAIL: sintaxis Python" >&2
   ERRORS=$((ERRORS + 1))
 fi
 

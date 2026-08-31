@@ -1,4 +1,4 @@
-import type { Capabilities, Job } from "./types";
+import type { AvailableModel, Capabilities, Job } from "./types";
 
 function withBase(baseUrl: string, path: string): string {
     const base = String(baseUrl || window.location.pathname).trim().replace(/\/+$/, "");
@@ -23,6 +23,24 @@ async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
 
 export function getCapabilities(baseUrl: string): Promise<Capabilities> {
     return fetchJson<Capabilities>(withBase(baseUrl, "/sdcpp/v1/capabilities"));
+}
+
+export async function getModels(baseUrl: string): Promise<{ models: AvailableModel[]; active: string }> {
+    try {
+        const payload = await fetchJson<{ models?: AvailableModel[]; active?: string } | null>(withBase(baseUrl, "/deep-diffusion/models"));
+        return { models: payload?.models || [], active: payload?.active || "" };
+    } catch {
+        // A direct sd-server does not expose the supervisor catalog yet.
+        return { models: [], active: "" };
+    }
+}
+
+export function selectModel(baseUrl: string, model: string): Promise<{ active: string }> {
+    return fetchJson<{ active: string }>(withBase(baseUrl, "/deep-diffusion/models/select"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model }),
+    });
 }
 
 export function submitImageJob(baseUrl: string, body: unknown): Promise<Job> {

@@ -15,6 +15,7 @@ if [[ ! -f "${CONFIG_FILE}" ]]; then
 fi
 source "${CONFIG_FILE}"
 
+MODEL="${MODEL_OVERRIDE:-${MODEL}}"
 BACKEND="${BACKEND_OVERRIDE:-${BACKEND}}"
 NEGATIVE_PROMPT="${NEGATIVE_PROMPT:-}"
 SAMPLING_METHOD="${SAMPLING_METHOD:-euler_a}"
@@ -87,7 +88,7 @@ from pathlib import Path
  duration_seconds) = sys.argv[1:]
 payload = {
     "created_at": datetime.now(timezone.utc).isoformat(),
-    "project": "deep-n",
+    "project": "deep-diffusion",
     "model": model,
     "model_sha256": model_sha256,
     "engine_version": engine_version,

@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BACKUP_DIR="${BACKUP_DIR:-${ROOT_DIR}/backups}"
 STAMP="$(date +%Y%m%d-%H%M%S)"
-BACKUP_FILE="${BACKUP_DIR}/deep-n-${STAMP}.tar.gz"
+BACKUP_FILE="${BACKUP_DIR}/deep-diffusion-${STAMP}.tar.gz"
 
 mkdir -p "${BACKUP_DIR}"
 

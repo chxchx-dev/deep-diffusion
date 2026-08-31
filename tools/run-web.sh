@@ -3,14 +3,18 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/configs/default.env"
+MODEL="${MODEL_OVERRIDE:-${MODEL}}"
 SERVER="${ROOT_DIR}/vendor/stable-diffusion.cpp/build/bin/sd-server"
-MODEL="${ROOT_DIR}/${MODEL}"
+if [[ "${MODEL}" != /* ]]; then
+  MODEL="${ROOT_DIR}/${MODEL}"
+fi
 FRONTEND="${ROOT_DIR}/web/dist/index.html"
+SUPERVISOR="${ROOT_DIR}/tools/model-supervisor.py"
 BACKEND="${BACKEND_OVERRIDE:-${BACKEND}}"
 LORA_APPLY_MODE="${LORA_APPLY_MODE:-immediately}"
 VAE_TILING="${VAE_TILING:-1}"
 
-if [[ ! -x "${SERVER}" ]]; then
+if [[ ! -x "${SERVER}" || ! -x "${SUPERVISOR}" ]]; then
   echo "Falta sd-server. Ejecuta: ninja -C vendor/stable-diffusion.cpp/build -j1 sd-server" >&2
   exit 1
 fi
@@ -23,18 +27,12 @@ if [[ ! -f "${FRONTEND}" ]]; then
   exit 1
 fi
 
-echo "Interfaz local: http://127.0.0.1:1234"
-echo "Detener: Ctrl+C"
-SERVER_ARGS=(
+exec python3 "${SUPERVISOR}" \
+  --root "${ROOT_DIR}" \
+  --server "${SERVER}" \
   --model "${MODEL}" \
-  --listen-ip 127.0.0.1 \
-  --listen-port 1234 \
-  --lora-model-dir "${ROOT_DIR}/${LORA_DIR}" \
+  --frontend "web/dist/index.html" \
+  --lora-dir "${LORA_DIR}" \
   --lora-apply-mode "${LORA_APPLY_MODE}" \
-  --serve-html-path "${FRONTEND}" \
-  --backend "${BACKEND}"
-)
-if [[ "${VAE_TILING}" == "1" ]]; then
-  SERVER_ARGS+=(--vae-tiling)
-fi
-exec "${SERVER}" "${SERVER_ARGS[@]}"
+  --backend "${BACKEND}" \
+  --vae-tiling "${VAE_TILING}"

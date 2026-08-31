@@ -1,5 +1,7 @@
 # Modelos y adaptadores locales
+models/
 models/*
+loras/
 loras/*
 *.safetensors
 *.ckpt
@@ -23,6 +25,7 @@ backups/*
 *.so
 *.d
 *.ninja
+__pycache__/
 
 # Dependencia externa local; se prepara siguiendo vendor/README.md
 /vendor/stable-diffusion.cpp/
@@ -30,10 +33,9 @@ backups/*
 # Archivos temporales del sistema y editores
 .cache/
 .local/
+.env
+.env.*
+!.env.example
 .DS_Store
 *.swp
 *.swo
-
-# Material interno de planificación
-docs/PLAN.md
-docs/DECISIONS.md

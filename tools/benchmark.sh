@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/configs/default.env"
+MODEL="${MODEL_OVERRIDE:-${MODEL}}"
 BACKEND="${BACKEND_OVERRIDE:-${BACKEND}}"
 WIDTH="${WIDTH_OVERRIDE:-${WIDTH}}"
 HEIGHT="${HEIGHT_OVERRIDE:-${HEIGHT}}"
@@ -25,7 +26,7 @@ fi
 
 LOG_FILE="${LOG_DIR}/benchmark-${BENCHMARK_TAG}-$(date +%Y%m%d-%H%M%S).txt"
 {
-  echo "deep-n benchmark"
+  echo "deep-diffusion benchmark"
   echo "tag=${BENCHMARK_TAG}"
   date --iso-8601=seconds
   echo "model=${MODEL}"

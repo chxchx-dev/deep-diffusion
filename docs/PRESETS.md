@@ -37,6 +37,19 @@ modelos, LoRAs ni imágenes.
 
 ## Ejemplos incluidos
 
+La interfaz web incluye un selector de recetas (`Load example recipe`) para
+cargar directamente prompts y ajustes de generación. No es una galería de
+imágenes: cada receta es un punto de partida editable y no guarda resultados.
+
+Incluye ejemplos de personaje anime, retrato anime, paisaje fantástico, logo
+de mascota e icono de producto. Después de cargar una receta se puede ajustar
+cualquier campo y pulsar `Save current` si se quiere conservar una variante
+personal.
+
+La interfaz también mantiene un historial local de ejecuciones. Este guarda la
+configuración y el estado para volver a cargarla o exportarla, pero excluye las
+imágenes auxiliares y no almacena los PNG generados.
+
 El archivo `configs/presets/examples.json` contiene presets importables para:
 
 - Personaje anime con acuarela.

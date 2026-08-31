@@ -1,36 +1,23 @@
-import { type Ref, ref, watch } from "vue";
+export interface StoredValue<T> {
+    value: T;
+}
 
 export function normalizePollIntervalMs(value: unknown): number {
     const numeric = Number(value);
-    if (!Number.isFinite(numeric)) {
-        return 100;
-    }
-    return Math.max(1, Math.round(numeric));
+    return Number.isFinite(numeric) ? Math.max(1, Math.round(numeric)) : 100;
 }
 
-export function createStoredRef<T>(key: string, fallbackValue: T, normalize: (value: any) => T = (value) => value): Ref<T> {
-    const state = ref(readStoredValue(key, fallbackValue, normalize)) as Ref<T>;
-
-    watch(state, (value) => {
-        const normalized = normalize(value);
-        if (normalized !== value) {
-            state.value = normalized;
-            return;
-        }
-        window.localStorage.setItem(key, JSON.stringify(normalized));
-    });
-
-    return state;
-}
-
-function readStoredValue<T>(key: string, fallbackValue: T, normalize: (value: any) => T): T {
+export function createStoredRef<T>(key: string, fallbackValue: T, normalize: (value: unknown) => T = (value) => value as T): StoredValue<T> {
+    let initial = fallbackValue;
     try {
-        const storedValue = window.localStorage.getItem(key);
-        if (storedValue == null) {
-            return normalize(fallbackValue);
-        }
-        return normalize(JSON.parse(storedValue));
+        const stored = window.localStorage.getItem(key);
+        if (stored != null) initial = normalize(JSON.parse(stored));
     } catch {
-        return normalize(fallbackValue);
+        initial = normalize(fallbackValue);
     }
+    let current = normalize(initial);
+    return {
+        get value() { return current; },
+        set value(next: T) { current = normalize(next); window.localStorage.setItem(key, JSON.stringify(current)); },
+    };
 }

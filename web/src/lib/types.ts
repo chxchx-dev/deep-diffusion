@@ -111,6 +111,13 @@ export interface AvailableLora {
   path: string;
 }
 
+export interface AvailableModel {
+  name: string;
+  path: string;
+  size_bytes: number;
+  active: boolean;
+}
+
 // ---------------------------------------------------------------------------
 // Capabilities (API response)
 // ---------------------------------------------------------------------------
