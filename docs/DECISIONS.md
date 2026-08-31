@@ -12,3 +12,5 @@
 | 2026-08-31 | Adoptar `AGENTS.md` + `docs/` como gobierno canónico | Mantener trazabilidad común entre agentes y separar estado, reglas, decisiones, riesgos e historial |
 | 2026-08-31 | Renombrar el proyecto a `deep-diffusion` | Alinear repositorio, paquetes, interfaz, metadatos y rutas propias con el nuevo nombre público |
 | 2026-08-31 | Enfocar la documentación en uso y desarrollo del software | Retirar el playbook genérico de gobierno y mantener solo las guías específicas del proyecto |
+| 2026-08-31 | Mantener React + Vite como frontend vigente | Unificar el desarrollo web en React, conservar el contrato nativo de `stable-diffusion.cpp` y cerrar la transición desde Vue con un plan verificable |
+| 2026-08-31 | No mantener archivos `.env.example` | Evitar configuraciones de ejemplo desactualizadas; los defaults y presets versionables son la referencia y los overrides son locales |

@@ -17,6 +17,15 @@
 - No agregues secretos, rutas personales, dependencias generadas o builds al
   repositorio.
 
+## Configuración local
+
+- No crear ni versionar `.env.example`, `.env.local.example` ni otras variantes
+  de archivos de ejemplo para variables de entorno.
+- Los defaults reproducibles viven en `configs/default.env` y los presets
+  portables en `configs/presets/*.env`.
+- Los overrides personales viven en archivos `.env` ignorados, como
+  `web/.env`, y no deben contener secretos versionados.
+
 ## Rendimiento y operación
 
 - El baseline es SD 1.5, 512×512, batch 1, 20 pasos, CFG 7 y seed 42.

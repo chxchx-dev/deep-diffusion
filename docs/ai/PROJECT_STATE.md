@@ -1,6 +1,6 @@
 # Estado operativo de deep-diffusion
 
-**Última evidencia funcional disponible:** 2026-08-08
+**Última evidencia funcional disponible:** 2026-08-31
 **Estado:** baseline local en evolución; validación Vulkan pendiente en el host gráfico.
 
 ## Qué existe
@@ -19,6 +19,10 @@
 - El servidor CPU arrancó en `http://127.0.0.1:1234`.
 - El modelo y el LoRA activos tienen hash y ficha en `docs/MODELS.md` y
   `docs/LORAS.md`.
+- El frontend React + Vite pasó type-check y build de producción; se generó
+  `web/dist/index.html` autocontenido el 2026-08-31.
+- El bundle de producción y su header embebible se sirvieron/generaron
+  correctamente en loopback durante la validación del 2026-08-31.
 
 ## Límites conocidos
 

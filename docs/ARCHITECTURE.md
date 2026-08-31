@@ -32,3 +32,7 @@ Prompt + configuración
 - CLIP en CPU y difusión/VAE en Vulkan como primera distribución.
 - Seed fija en workflows de comparación.
 - Frontend web separado del motor para que el CLI siga siendo útil incluso sin interfaz.
+
+La transferencia desde el frontend Vue al frontend React + Vite y sus criterios
+de cierre están documentados en
+[`REACT-VITE-MIGRATION.md`](REACT-VITE-MIGRATION.md).

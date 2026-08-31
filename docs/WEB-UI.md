@@ -4,6 +4,8 @@ La interfaz se sirve únicamente en `127.0.0.1:1234`; no se expone a la red loca
 
 El frontend propio vive en `web/`, está construido con React + Vite y se sirve
 como un archivo local compilado.
+La transición desde la implementación Vue está descrita en
+[`REACT-VITE-MIGRATION.md`](REACT-VITE-MIGRATION.md).
 El motor se mantiene separado en `vendor/stable-diffusion.cpp` y no necesita
 incluir la interfaz dentro de su binario.
 

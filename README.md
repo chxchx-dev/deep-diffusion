@@ -138,6 +138,7 @@ presets en el navegador.
 
 - [Índice documental](docs/README.md)
 - [Desarrollo y documentación](docs/DEVELOPMENT.md)
+- [Plan Vue → React + Vite](docs/REACT-VITE-MIGRATION.md)
 - [Uso de agentes](docs/ai/AGENT_USAGE.md)
 - [Estado operativo](docs/ai/PROJECT_STATE.md)
 - [Reglas de trabajo](docs/RULES.md)

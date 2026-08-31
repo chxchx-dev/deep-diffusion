@@ -27,6 +27,8 @@ obsoleta y registra una decisión cuando el impacto sea relevante.
   ni servicios externos sin una decisión explícita.
 - No versionar modelos, LoRAs, outputs, logs, builds, secretos ni preferencias
   personales.
+- No crear ni versionar archivos `.env.example` ni variantes de ejemplo de
+  configuración; usa defaults versionables y overrides locales ignorados.
 - No sobrescribir imágenes de entrada ni resultados anteriores.
 - Mantener el CLI como referencia reproducible y la interfaz web como capa de
   operación sobre el mismo motor.

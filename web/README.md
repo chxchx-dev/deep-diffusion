@@ -56,6 +56,8 @@ In another terminal, start the local backend with `pnpm web`. Vite proxies
 `/sdcpp/*` and `/deep-diffusion/*` to `http://127.0.0.1:1234`, so the React interface
 works during development without manually configuring CORS. Override that
 target in `web/.env` using `VITE_API_PROXY_TARGET` if needed.
+No `.env.example` file is maintained; keep local overrides in the ignored
+`web/.env` file.
 
 The UI lets you set the backend base URL in the Settings tab.  
 If left empty, requests go to the current origin.

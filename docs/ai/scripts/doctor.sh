@@ -96,8 +96,20 @@ for path in tracked:
         forbidden.append(path)
     if Path(path).name in {'.env', '.env.local', '.env.production'}:
         forbidden.append(path)
+env_examples = [
+    path for path in root.rglob("*")
+    if path.is_file()
+    and path.name.endswith(".env.example")
+    and ".git" not in path.parts
+    and "vendor" not in path.parts
+    and "node_modules" not in path.parts
+    and "dist" not in path.parts
+    and "build" not in path.parts
+]
+for path in env_examples:
+    forbidden.append(str(path.relative_to(root)))
 if forbidden:
-    raise SystemExit("estado generado o secreto versionado:\n" + "\n".join(forbidden))
+    raise SystemExit("estado generado, secreto o archivo .env.example:\n" + "\n".join(forbidden))
 print(f"{len(markdown)} documentos Markdown revisados; enlaces válidos")
 PY
 then

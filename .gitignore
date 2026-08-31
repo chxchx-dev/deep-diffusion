@@ -35,7 +35,6 @@ __pycache__/
 .local/
 .env
 .env.*
-!.env.example
 .DS_Store
 *.swp
 *.swo

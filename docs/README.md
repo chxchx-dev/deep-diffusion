@@ -10,6 +10,8 @@ Diagnóstico documental y de estructura: `pnpm run doctor`.
 
 - [Desarrollo y documentación](DEVELOPMENT.md): cómo trabajar en el proyecto y
   mantener sus fuentes documentales.
+- [Plan Vue → React + Vite](REACT-VITE-MIGRATION.md): fases, compatibilidad y
+  criterios de cierre del frontend.
 - [Automatización del desarrollo](ai/AGENT_USAGE.md): Codex, Claude Code y
   OpenCode.
 - [Estado operativo](ai/PROJECT_STATE.md): resumen corto y actualizado.
