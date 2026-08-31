@@ -9,7 +9,7 @@ BACKUP_FILE="${BACKUP_DIR}/deep-diffusion-${STAMP}.tar.gz"
 mkdir -p "${BACKUP_DIR}"
 
 tar -czf "${BACKUP_FILE}" -C "${ROOT_DIR}" \
-  README.md LICENSE .gitignore \
+  README.md .gitignore \
   configs docs workflows experiments tools vendor/README.md
 
 echo "Respaldo creado: ${BACKUP_FILE}"

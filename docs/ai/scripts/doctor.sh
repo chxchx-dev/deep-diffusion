@@ -17,6 +17,7 @@ required_files=(
   docs/RISKS.md
   docs/BACKLOG.md
   docs/SECURITY.md
+  docs/DEVELOPMENT.md
   docs/ai/PROJECT_STATE.md
   docs/ai/DOCUMENTATION_MAP.md
   docs/archive/HISTORY.md
@@ -26,6 +27,7 @@ required_files=(
   workflows/SECURITY_REVIEW.md
   workflows/RELEASE.md
   workflows/DOCS_SYNC.md
+  workflows/README.md
 )
 
 for path in "${required_files[@]}"; do
@@ -112,6 +114,12 @@ if rg -n --hidden -g '!vendor/**' -g '!web/node_modules/**' \
   fail "referencias a archivos retirados"
 else
   pass "sin referencias a archivos retirados"
+fi
+
+if [[ ! -e "${ROOT_DIR}/LICENSE" ]]; then
+  pass "sin licencia MIT propia en la raíz"
+else
+  fail "sigue presente la licencia propia de la raíz"
 fi
 
 if [[ "${ERRORS}" -ne 0 ]]; then

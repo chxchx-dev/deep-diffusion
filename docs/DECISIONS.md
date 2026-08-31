@@ -11,3 +11,4 @@
 | 2026-08-07 | Mantener estilos y parámetros como configuración  | Permitir presets anime, acuarela u otros sin modificar scripts ni código       |
 | 2026-08-31 | Adoptar `AGENTS.md` + `docs/` como gobierno canónico | Mantener trazabilidad común entre agentes y separar estado, reglas, decisiones, riesgos e historial |
 | 2026-08-31 | Renombrar el proyecto a `deep-diffusion` | Alinear repositorio, paquetes, interfaz, metadatos y rutas propias con el nuevo nombre público |
+| 2026-08-31 | Enfocar la documentación en uso y desarrollo del software | Retirar el playbook genérico de gobierno y mantener solo las guías específicas del proyecto |

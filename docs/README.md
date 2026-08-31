@@ -1,13 +1,17 @@
 # Documentación de deep-diffusion
 
-Este es el índice de la documentación activa. `AGENTS.md` es la entrada para
-agentes; este archivo indica dónde vive cada tipo de conocimiento.
+Este es el índice de la documentación activa. Separa el uso del producto, su
+desarrollo y la evidencia de operación. `AGENTS.md` es la entrada para las
+herramientas de desarrollo que necesitan contexto del repositorio.
 
 Diagnóstico documental y de estructura: `pnpm run doctor`.
 
-## Estado y gobierno
+## Estado y criterios de trabajo
 
-- [Uso de agentes](ai/AGENT_USAGE.md): Codex, Claude Code y OpenCode.
+- [Desarrollo y documentación](DEVELOPMENT.md): cómo trabajar en el proyecto y
+  mantener sus fuentes documentales.
+- [Automatización del desarrollo](ai/AGENT_USAGE.md): Codex, Claude Code y
+  OpenCode.
 - [Estado operativo](ai/PROJECT_STATE.md): resumen corto y actualizado.
 - [Mapa documental](ai/DOCUMENTATION_MAP.md): fuente responsable por tema.
 - [Reglas de trabajo](RULES.md): invariantes de código, datos y operación.
@@ -16,7 +20,7 @@ Diagnóstico documental y de estructura: `pnpm run doctor`.
 - [Backlog](BACKLOG.md): trabajo pendiente priorizado.
 - [Historial](archive/HISTORY.md): hitos cerrados y evidencia histórica.
 
-## Producto y operación
+## Uso del producto y operación
 
 - [Arquitectura](ARCHITECTURE.md)
 - [Preparación del entorno](SETUP.md)
@@ -28,14 +32,13 @@ Diagnóstico documental y de estructura: `pnpm run doctor`.
 - [Mantenimiento](MAINTENANCE.md)
 - [Seguridad y privacidad](SECURITY.md)
 
-## Workflows
+## Referencias del desarrollo
 
-- [Feature](../workflows/FEATURE.md)
-- [Bugfix](../workflows/BUGFIX.md)
-- [Cambio de arquitectura](../workflows/ARCHITECTURE_CHANGE.md)
-- [Revisión de seguridad](../workflows/SECURITY_REVIEW.md)
-- [Release](../workflows/RELEASE.md)
-- [Sincronización documental](../workflows/DOCS_SYNC.md)
+- [Workflows](../workflows/README.md): rutas para features, bugs, arquitectura,
+  seguridad, releases, documentación y baselines.
+
+Los workflows enlazan a los documentos que necesitan y no duplican la
+documentación del producto.
 
 ## Alcance
 

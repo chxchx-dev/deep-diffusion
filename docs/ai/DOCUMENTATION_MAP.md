@@ -4,6 +4,7 @@
 | --- | --- | --- |
 | Entrada y límites para agentes | `AGENTS.md` | Enrutamiento y definición de terminado |
 | Estado actual | `docs/ai/PROJECT_STATE.md` | Resumen operativo corto |
+| Desarrollo y documentación | `docs/DEVELOPMENT.md` | Flujo humano para modificar, probar y documentar el proyecto |
 | Uso de agentes | `docs/ai/AGENT_USAGE.md` | Aplicación común en Codex, Claude Code y OpenCode |
 | Reglas transversales | `docs/RULES.md` | Invariantes de trabajo |
 | Arquitectura | `docs/ARCHITECTURE.md` | Diseño vigente del sistema |

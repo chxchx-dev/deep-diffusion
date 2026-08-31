@@ -40,8 +40,8 @@ de generación local, reproducible y orientada a hardware accesible.
 - Frontend React + Vite, presets, recetas, historial local y cambio secuencial
   de modelos.
 - Baseline definido: SD 1.5, 512×512, batch 1, 20 pasos, CFG 7 y seed 42.
-- Gobernanza común para agentes en `AGENTS.md`, workflows, roles, decisiones,
-  riesgos, backlog y diagnóstico automático.
+- Guía de desarrollo, documentación y validación reproducible en `docs/` y
+  `workflows/`.
 
 ### Objetivo inmediato
 
@@ -136,7 +136,8 @@ presets en el navegador.
 
 ## Documentación
 
-- [Índice documental y gobierno](docs/README.md)
+- [Índice documental](docs/README.md)
+- [Desarrollo y documentación](docs/DEVELOPMENT.md)
 - [Uso de agentes](docs/ai/AGENT_USAGE.md)
 - [Estado operativo](docs/ai/PROJECT_STATE.md)
 - [Reglas de trabajo](docs/RULES.md)
@@ -149,9 +150,9 @@ presets en el navegador.
 - [Presets](docs/PRESETS.md)
 - [Rendimiento](docs/PERFORMANCE.md)
 - [Modelos compatibles](docs/MODELS.md)
-- [Flujos CLI](workflows/txt2img-baseline.md)
+- [Flujos de trabajo y baselines](workflows/README.md)
 
-## Gobernanza y uso de agentes
+## Desarrollo y automatización
 
 Todos los agentes comparten la misma fuente de verdad. El flujo normal es:
 
@@ -179,8 +180,10 @@ modelos no se envían a servicios externos. No incluye funciones de desnudo
 automático ni sexualización de personas reales; cualquier uso de personajes
 adultos debe ser ficticio y claramente adulto.
 
-## Licencia
+## Distribución y licencias
 
-Este proyecto se distribuye bajo la [licencia MIT](LICENSE). El motor incluido
-conserva su propia licencia; los modelos y LoRAs tienen licencias independientes
-y no forman parte de este repositorio.
+El código propio de la raíz no incluye una licencia de distribución declarada.
+La interfaz web conserva el aviso de licencia de su código de origen en
+[`web/LICENSE`](web/LICENSE). El motor incluido conserva su propia licencia y
+los modelos y LoRAs tienen licencias independientes; no forman parte de este
+repositorio.

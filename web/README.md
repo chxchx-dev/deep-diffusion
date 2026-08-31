@@ -129,4 +129,6 @@ scripts/
 
 ## License
 
-MIT License
+This frontend retains the upstream license notice in [`LICENSE`](LICENSE).
+That notice applies to the web frontend code and is separate from the root
+project's distribution status.
